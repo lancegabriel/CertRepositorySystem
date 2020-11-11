@@ -1,18 +1,13 @@
 import React from 'react';
-import { useHistory  } from 'react-router-dom'
-export const Login = ()  =>  {
-  const [value, setValue] = React.useState('');
-  const history = useHistory();
-  const onChange = event => {
-    localStorage.setItem('permission', document.getElementById("username").value); 
-    setValue( document.getElementById("username").value);
-    history.push('/uploadCert')
-    window.location.reload();
-  };
+import '../Main/App.css';
+
+
+export const UploadCert = ()  =>  {
     return (
     <div className="container" style={{marginLeft:550}}>
         <div className="mt-3">
-            <h3>Login</h3>
+            <h3>Upload Certificate</h3>
+            <p>Please upload your certificate in PDF.</p>
             <form>
                 <div className="form-group">
                 <div className="row">
@@ -34,7 +29,7 @@ export const Login = ()  =>  {
                     </div>
                 </div>
                 <div className="form-group">
-                  <button type="submit" onClick={onChange} className-="btn btn-primary">
+                  <button type="submit" className-="btn btn-primary">
                       Login
                   </button>
                 </div>
@@ -43,3 +38,4 @@ export const Login = ()  =>  {
    </div>
  );
 }
+
