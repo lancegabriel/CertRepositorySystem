@@ -6,8 +6,16 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 Do a `npm install` in folder
 Do a `yarn install` in folder
+Do a `npm install` in backend folder
+
+Change mongodb connection string in backend/Server.js
 
 ## Starting server
+Frontend 
 `yarn start`
+Website should start in browser
 
-localhost:3000 should run.
+Backend
+cd backend -> `node server.js`
+
+Mongodb connection should connect, localhost running on port 4000.
