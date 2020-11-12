@@ -12,7 +12,20 @@ const User = mongoose.Schema({
     },
     fullname: {
         type: String
-    }
+    },
+    /* 1 -- Subscriber
+       2 -- Web Admin
+       3 -- HR
+    */
+    userPermission: {
+        type: Number
+    },
+    
+    certificates: [{
+        pdfUrl: {
+            type: String
+                }
+        }]
 });
 
 module.exports = mongoose.model("User", User)

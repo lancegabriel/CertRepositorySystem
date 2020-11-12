@@ -1,6 +1,6 @@
 import React from 'react';
 import '../Main/App.css';
-
+import Button from "@material-ui/core/Button";
 
 export const UploadCert = ()  =>  {
     return (
@@ -12,26 +12,17 @@ export const UploadCert = ()  =>  {
                 <div className="form-group">
                 <div className="row">
                   <div className="col-sm-1">
-                    <label htmlFor="text">Username:</label>
+                    <label htmlFor="text">Upload Certificate:</label>
                   </div>
                   <div className="col-sm-6">
-                    <input type="text" name="text" id="username" />
+                  <input type="file" />
                   </div>
                   </div>
-
-                  <div className="row">
-                    <div className="col-sm-1">
-                      <label htmlFor="password">Password:</label>
-                    </div>
-                    <div className="col-sm-6">
-                      <input type="password" name="password" id="password" />
-                    </div>
-                    </div>
                 </div>
                 <div className="form-group">
-                  <button type="submit" className-="btn btn-primary">
-                      Login
-                  </button>
+                  <Button variant="outlined" className-="btn btn-primary">
+                      Upload
+                  </Button>
                 </div>
             </form>
         </div>

@@ -8,7 +8,8 @@ import { UploadCert } from '../Subscriber/UploadCert'
 function App() {  
   const history = useHistory();
   let currentPermission =  (localStorage.getItem("permission") == null || localStorage.getItem("permission") === '') ?  "" : localStorage.getItem("permission");
-  console.log(currentPermission)
+  console.log(currentPermission);
+
   const onLogoutClick = () => {
     localStorage.setItem("permission", null)
     history.push("/login")
@@ -17,7 +18,7 @@ function App() {
   
   return (
     <div>
-      { (currentPermission == null || currentPermission !== 'Subscriber') && (
+      { (currentPermission == null || currentPermission !== '1') && (
      <nav className="navbar bg-light navbar-expand-lg navbar-light">
        <ul className="navbar-nav mr-auto">
          <li className="navbar-item">
@@ -29,7 +30,7 @@ function App() {
        </ul>
      </nav>)
      }
-     { (currentPermission === 'Subscriber') && (
+     { (currentPermission === '1') && (
      <nav className="navbar bg-light navbar-expand-lg navbar-light">
        <ul className="navbar-nav mr-auto">
          <li className="navbar-item">

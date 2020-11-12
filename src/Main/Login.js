@@ -1,13 +1,27 @@
 import React from 'react';
 import { useHistory  } from 'react-router-dom'
+import { findUser } from '../api.js'
+import Button from "@material-ui/core/Button";
+
 export const Login = ()  =>  {
-  const [value, setValue] = React.useState('');
+
   const history = useHistory();
-  const onChange = event => {
-    localStorage.setItem('permission', document.getElementById("username").value); 
-    setValue( document.getElementById("username").value);
+  const onChange = () => {
+   
+    const body = {
+      username: document.getElementById("username").value,
+      password: document.getElementById("password").value
+    }
+     findUser(body)
+     .then(response => response.json())
+     .then(responseJson => {
+    localStorage.setItem('permission', responseJson.userPermission); 
     history.push('/uploadCert')
     window.location.reload();
+     }).catch((error) => {
+       alert(error)
+     })
+  
   };
     return (
     <div className="container" style={{marginLeft:550}}>
@@ -34,9 +48,9 @@ export const Login = ()  =>  {
                     </div>
                 </div>
                 <div className="form-group">
-                  <button type="submit" onClick={onChange} className-="btn btn-primary">
+                  <Button variant="outlined" onClick={onChange} className-="btn btn-primary">
                       Login
-                  </button>
+                  </Button>
                 </div>
             </form>
         </div>
