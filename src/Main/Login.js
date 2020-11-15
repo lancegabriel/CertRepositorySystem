@@ -16,6 +16,8 @@ export const Login = ()  =>  {
      .then(response => response.json())
      .then(responseJson => {
     localStorage.setItem('permission', responseJson.userPermission); 
+    localStorage.setItem('username', responseJson.username); 
+    alert(responseJson.username)
     history.push('/uploadCert')
     window.location.reload();
      }).catch((error) => {

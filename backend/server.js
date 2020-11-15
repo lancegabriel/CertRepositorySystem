@@ -3,10 +3,10 @@ const cors = require("cors")
 const mongoose = require("mongoose")
 const User = require('./models/user')
 const multer = require('multer')
-const uuidv4 = require('uuid/v4')
+const uuid = require('uuid').v4;
+const bodyParser = require('body-parser');
 mongoose.connect("mongodb+srv://root:root@cluster0.8xhla.mongodb.net/Cluster0?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true})
 
-const DIR = '../public/Certificates'
 const PORT = 4000;
 const app = express();
 
@@ -16,14 +16,34 @@ const app = express();
 
  app.use(cors())
  app.use(express.json())
+app.use(bodyParser.json()); 
+app.use(bodyParser.urlencoded()); 
+app.use(bodyParser.urlencoded({ extended: true }));
 
- const storage = multer.diskStorage({
+app.use('/Certificates', express.static('Certificates'));
+ const DIR = '../public/Certificates';
+let finalFileName = "";
+
+const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, DIR);
     },
     filename: (req, file, cb) => {
         const fileName = file.originalname.toLowerCase().split(' ').join('-');
-        cb(null, uuidv4() + '-' + fileName)
+        finalFileName = uuid() + '-' + fileName;
+        cb(null, finalFileName)
+    }
+});
+
+var upload = multer({
+    storage: storage,
+    fileFilter: (req, file, cb) => {
+        if (file.mimetype === "application/pdf") {
+            cb(null, true);
+        } else {
+            cb(null, false);
+            return cb(new Error('Only PDF is allowed!'));
+        }
     }
 });
 
@@ -61,24 +81,26 @@ const app = express();
  });
 
  
- app.post("/uploadCertificate", async(req, res) => {
+ app.post("/uploadCertificate", upload.single("theFile"), (req, res) => {
+    console.log("ID:" + req.body.id)
+    var url = req.protocol + '://' + req.get('host')
     var id = req.body.id;
-    var url = req.body.url;
-    const user = await User.update(
+    var fileName = req.body.fileName;
+    //var fullUrl = url + '/public/Certificates/' + fileName;
+    console.log(finalFileName)
+    User.update(
         { "_id": id },
         { "$push": 
             {"certificates":
                 {
-                    pdfUrl: url      
+                    pdfUrl: finalFileName      
                 }
             }
+        }).then(res => {
+            res.send("Certificate uploaded!")
+        }).catch(err => {
+            res.send("Something went wrong!")
         })
-    console.log(user)
-    if (!user) {
-        res.send("User not found!") 
-    } else {
-        res.json(user)
-    }
  });
 
  app.get("/:id", (req, res) => {

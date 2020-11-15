@@ -1,5 +1,5 @@
 const multer = require('multer')
-const uuidv4 = require('uuid/v4')
+const uuidv4 = require('uuid')
 
 const DIR = './public/';
 
