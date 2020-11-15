@@ -19,3 +19,5 @@ Backend
 cd backend -> `node server.js`
 
 Mongodb connection should connect, localhost running on port 4000.
+
+Create folder called Certificates (Case sensitive) in the folder Public.
