@@ -2,6 +2,7 @@ const express = require("express")
 const cors = require("cors")
 const mongoose = require("mongoose")
 const User = require('./models/user')
+const Appointment = require('./models/Appointment')
 const multer = require('multer')
 const uuid = require('uuid').v4;
 const bodyParser = require('body-parser');
@@ -47,9 +48,22 @@ var upload = multer({
     }
 });
 
- // User APIs
- app.get("/", (req, res) => {
+app.get("/getAllCerts", (req, res) => {
     User.find((err, user) => {
+        if (err) {
+            console.log(err)
+        } else {
+            res.json(user)
+        }
+    });
+ });
+
+ // User APIs
+ app.post("/getCerts", (req, res) => {
+    var ObjectId = require('mongodb').ObjectID;
+     const id = req.body.id
+   //  console.log(id)
+    User.find({"_id": ObjectId(id) }, (err, user) => {
         if (err) {
             console.log(err)
         } else {
@@ -69,10 +83,19 @@ var upload = multer({
     });
  });
 
+ app.post("/createAppointment", (req, res) => {
+    const appointment = new Appointment(req.body) 
+    appointment.save().then((newUser) => {
+        res.json(newUser)
+    })
+    .catch((err) => {   
+        res.status(500).send("Error!")
+    });
+ });
+
  app.post("/checkUser", async(req, res) => {
     var thisUsername = req.body.username;
     const user = await User.findOne({ username: thisUsername})
-    console.log(user)
     if (!user) {
         res.send("User not found!") 
     } else {
@@ -80,20 +103,59 @@ var upload = multer({
     }
  });
 
- 
- app.post("/uploadCertificate", upload.single("theFile"), (req, res) => {
+ app.get("/download/:name", (req, res) => {
+     var link = req.params.name;
+     console.log(link)
+     res.download("../public/Certificates/"+link, (err) => {
+         if (err) {
+             res.status(500).send({
+                 message: "Could not download the file. " + err,
+             })
+         }
+     })
+ });
+
+ app.put("/updateCertificate", (req, res) => {
+    console.log("hi")
+     var id = req.body.id;
+     var certId = req.body.certId;
+     var thisStatus = req.body.status
+    
+    // console.log(""id + "," + certId + "," + thisStatus"")
+     var ObjectId = require('mongodb').ObjectID;
+     User.update({
+         "_id": ObjectId(id),
+         "certificates._id": ObjectId(certId)
+     },
+     {
+         "$set": {
+             "certificates.$.status": thisStatus
+         }
+     },
+     {upsert: true}
+     ).then(res=> {
+        res.send("Certificate uploaded!")
+    }).catch(err => {
+        console.log(err)
+        res.send("Something went wrong!")
+    })
+})
+    
+ app.put("/uploadCertificate", upload.single("theFile"), (req, res) => {
     console.log("ID:" + req.body.id)
-    var url = req.protocol + '://' + req.get('host')
     var id = req.body.id;
-    var fileName = req.body.fileName;
-    //var fullUrl = url + '/public/Certificates/' + fileName;
-    console.log(finalFileName)
+    var fName = req.body.name;
+    var desc = req.body.description;
+    var thisStatus = "Pending Approval"
     User.update(
         { "_id": id },
         { "$push": 
             {"certificates":
                 {
-                    pdfUrl: finalFileName      
+                    pdfUrl: finalFileName,
+                    name: fName,
+                    description: desc,
+                    status: thisStatus
                 }
             }
         }).then(res => {

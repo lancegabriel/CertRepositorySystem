@@ -17,8 +17,14 @@ export const Login = ()  =>  {
      .then(responseJson => {
     localStorage.setItem('permission', responseJson.userPermission); 
     localStorage.setItem('username', responseJson.username); 
+    localStorage.setItem('userId', responseJson._id)
     alert(responseJson.username)
-    history.push('/uploadCert')
+    if (responseJson.username === 'webadmin1') {
+      history.push('/ManageAppt')
+    } else {
+      history.push('/uploadCert')
+    }
+    
     window.location.reload();
      }).catch((error) => {
        alert(error)

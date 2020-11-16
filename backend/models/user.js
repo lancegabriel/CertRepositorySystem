@@ -24,7 +24,16 @@ const User = mongoose.Schema({
     certificates: [{
         pdfUrl: {
             type: String
-                }
+                },
+        name: {
+            type: String
+                },
+        description: {
+            type: String
+        },
+        status: {
+            type: String
+        }
         }]
 });
 

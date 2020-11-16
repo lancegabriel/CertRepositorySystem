@@ -8,6 +8,7 @@ import axios from 'axios';
 export const UploadCert = ()  =>  {
   var fullFile = '';
   var user = '';
+  
   const config = {
     headers: {
       "Content-Type": "multipart/form-data",
@@ -22,6 +23,8 @@ export const UploadCert = ()  =>  {
   const onSubmit = (e) => {
       e.preventDefault();
       const File = document.getElementById("file").value;
+      const name = document.getElementById("name").value;
+      const desc = document.getElementById("description").value;
       let username = localStorage.getItem("username");
 
       const body = {
@@ -51,6 +54,8 @@ export const UploadCert = ()  =>  {
           formData.append('theFile', fullFile);
           formData.append('fileName', thefilename);
           formData.append('id', user._id);
+          formData.append('name', name);
+          formData.append('description', desc)
            axios({
              method: 'post',
              url:"http://localhost:4000/uploadCertificate",
@@ -63,19 +68,6 @@ export const UploadCert = ()  =>  {
              alert("Something went wrong! Please contact the administrator.");
               }))
 
-          // axios.post("http://localhost:4000/uploadCertificate", formData, {
-          // }).then(res => {
-          //     console.log(res)
-          // })
-          // uploadCertificate(inBody).then((response) =>  {
-          //   console.log(response);
-          //   alert("File uploaded successfully!")
-          //   window.location.reload();
-          // }).catch((error => {
-          //   console.log("Error!:" +  error)
-          //   alert("Something went wrong! Please contact the administrator.");
-          // }))
-          
        }).catch((error) => {
          alert(error)
        })
@@ -95,6 +87,22 @@ export const UploadCert = ()  =>  {
                   <input type="file" id="file" onChange={onFileChange} />
                   </div>
                   </div>
+              <div className="row">
+                  <div className="col-sm-1">
+                    <label htmlFor="name">Name:</label>
+                  </div>
+                  <div className="col-sm-6">
+                    <input type="name" name="name" id="name" />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-sm-1">
+                    <label htmlFor="name">Description:</label>
+                  </div>
+                  <div className="col-sm-6">
+                    <textarea name="description" id="description" />
+                  </div>
+                </div>
                 </div>
                 <div className="form-group">
                   <button type="submit" variant="outlined" className-="btn btn-primary">
