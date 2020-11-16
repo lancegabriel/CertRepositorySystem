@@ -6,9 +6,10 @@ import { Register } from './Register'
 import { UploadCert } from '../Subscriber/UploadCert'
 import { MyCertificates } from '../Subscriber/MyCertificates'
 import { MakeAppointment } from '../Subscriber/MakeAppointment'
+import { MySubAppointments } from '../Subscriber/SubsAppointments'
 import { WebAdminAllUsers } from '../WebAdmin/ManageAppt'
 import { ForAdminCertificate } from '../WebAdmin/CertificatePage'
-import { MyAppointments } from '../WebAdmin/MyAppointments';
+import { MyAppointments } from '../WebAdmin/MyAppointments'
 
 function App() {  
   const history = useHistory();
@@ -48,6 +49,9 @@ function App() {
            <Link to="/MakeAppointment" className="nav-link">Make Appointment</Link>
          </li>
          <li className="navbar-item">
+           <Link to="/SubsAppointments" className="nav-link">My Appointments</Link>
+         </li>
+         <li className="navbar-item">
            <Link to="/sendLink" className="nav-link">Send Link</Link>
          </li>
          <li className="navbar-item" onClick={onLogoutClick}>
@@ -81,6 +85,7 @@ function App() {
       <Route path="/ManageAppt" component={WebAdminAllUsers}/>
       <Route path="/CertificatePage" component={ForAdminCertificate}/>
       <Route path="/MyAppointments" component={MyAppointments}/>
+      <Route path="/SubsAppointments" component={MySubAppointments}/>
     </Switch>
     </div>
   );

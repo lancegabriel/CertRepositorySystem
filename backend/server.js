@@ -82,6 +82,7 @@ app.get("/getAllCerts", (req, res) => {
     });
  });
 
+ 
  app.post("/createUser", (req, res) => {
     const newUser = new User(req.body) 
 
@@ -124,6 +125,47 @@ app.get("/getAllCerts", (req, res) => {
          }
      })
  });
+
+ app.post("/getCertificateByStatus", (req, res) => {
+     const status = req.body.status;
+     const id = req.body.id;
+     var ObjectId = require('mongodb').ObjectID;
+     User.aggregate([
+         {
+             $match: { "_id": ObjectId(id)}
+         },
+         {
+             $addFields: {
+                 "Certificates": {
+                     $filter: {
+                         input: "$Certificates",
+                         cond: {
+                             $eq: ["$$this.status", status]
+                         }
+                     }
+                 }
+             }
+         }
+     ], (err, result) => {
+         if (err) {
+             console.log(err)
+         } else {
+             res.json(result)
+         }
+     })
+    //     User.find({"_id": ObjectId(id),
+    //               certificates: 
+    //                 { $not: 
+    //                     { $elemMatch: 
+    //                         { status: 
+    //                             { $ne: status}}}}}, (err, user) => {
+    //     if (err) {
+    //         console.log(err)
+    //     } else {
+    //         res.json(user)
+    //     }
+    // });
+})
 
  app.put("/updateCertificate", (req, res) => {
     console.log("hi")
@@ -175,9 +217,33 @@ app.get("/getAllCerts", (req, res) => {
         })
  });
 
+ app.delete("/removeApptById/:id", (req, res) => {
+    const id = req.params.id;
+    console.log("ID:" + id)
+    var ObjectId = require('mongodb').ObjectID;
+    Appointment.deleteOne({"_id": ObjectId(id)}, (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send("Success")
+        }
+    })
+ })
+
+ app.get("/getApptById/:id", (req, res) => {
+    const id = req.params.id;
+    Appointment.find({"userId": id}, (err, appt) => {
+        if (err) {
+            console.log(err)
+        } else {
+            res.json(appt)
+        }
+    });
+ });
+
  app.get("/:id", (req, res) => {
      const id = req.params.id;
-     User.findById(id, (err, user) => {
+     User.findById((err, user) => {
          res.json(user);
      });
  });

@@ -1,7 +1,16 @@
 export const getUsers = () => fetch("http://localhost:4000").then(res => res.json)
 export const loadUsers = () => fetch("http://localhost:4000/getAllCerts")
+export const loadAppointmentsById = (id) => fetch(`http://localhost:4000/getApptById/${id}`)
 export const loadAppointments = () => fetch("http://localhost:4000/getAppointments")
 export const downloadFile = (name) => fetch(`http://localhost:4000/${name}`)
+export const getCertByStatus = (certBody) => fetch("http://localhost:4000/getCertificateByStatus", {  
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify(certBody)
+})
+
 export const getUserInfoById = (aUser) => fetch("http://localhost:4000/getCerts", {  
     method: "POST",
     headers: {

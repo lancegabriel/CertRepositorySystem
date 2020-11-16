@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import '../Main/App.css';
-import { getUserInfoById, updateCertificate } from '../api.js'
+import { getUserInfoById, updateCertificate, getCertByStatus} from '../api.js'
 import Button from "@material-ui/core/Button";
-
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
 export const ForAdminCertificate = ()  =>  {
     const [user, setUser] = useState([])
     const [certs, setCerts] = useState([])
     const [currUser, setCurrUser] = useState()
+    const [status, setStatus] = useState("All")
+
     const onUpdateClick = (certObj, value) => {
         console.log(certObj)
         var thisStatus = ""
@@ -20,7 +24,6 @@ export const ForAdminCertificate = ()  =>  {
             certId: certObj._id,
             status: thisStatus
         }
-      //  console.log(JSON.stringify(body))
         updateCertificate(body).then(response=> {
             alert("Certificate updated!")
             window.location.reload();
@@ -28,9 +31,45 @@ export const ForAdminCertificate = ()  =>  {
             alert(err)
         })
     }
+    const handleChange = (event) => {
+        setStatus(event.target.value);
+        var currStatus = event.target.value;
+        const certBody = {
+            id: user._id,
+            status: event.target.value
+        }
+        if (currStatus !== "All") {
+        getCertByStatus(certBody).then(response => response.json()).then(response => {
+            console.log(response)
+            var array = response[0].certificates;
+            var newArray = []
+            for (var i = 0; i < array.length; i++) {
+                    if (array[i].status === currStatus) {
+                        newArray.push(array[i])
+                        console.log(array[i])
+                    }
+            }
+            setCerts(newArray)
+        }).catch(err => {
+            alert(err)
+        })
+         } else {
+            const loadCerts = async () => {
+                const id = localStorage.getItem("certId")
+                 const secondBody = {
+                     id: id
+                 }
+                  const data2 =  await getUserInfoById(secondBody).then(response=>response.json())
+                  if (data2[0]) {
+                  setCerts(data2[0].certificates)
+                  }
+                     }
+                  loadCerts()
+     }
+      };
     useEffect(() => {
         const loadCerts = async () => {
-            const id = localStorage.getItem("certId")
+       const id = localStorage.getItem("certId")
         const secondBody = {
             id: id
         }
@@ -47,6 +86,19 @@ export const ForAdminCertificate = ()  =>  {
         <div className="container">
             <div className="mt-3">
                 <h3>{currUser}'s Certificates</h3>
+                <div >
+                <InputLabel id="filterStatus">Filter:</InputLabel>
+                <Select
+                 labelId="filterStatus"
+                 id="filterStatuses"
+                 value={status}
+                onChange={handleChange} >
+                <MenuItem value={"All"}>All</MenuItem>
+                <MenuItem value={"Approved"}>Approved</MenuItem>
+                <MenuItem value={"Pending Approval"}>Pending Approval</MenuItem>
+                <MenuItem value={"Rejected"}>Rejected</MenuItem>
+             </Select>
+                </div>
                 <table className="table table-striped mt-3">
                     <thead>
                     <tr>
