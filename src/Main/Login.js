@@ -18,6 +18,7 @@ export const Login = ()  =>  {
     localStorage.setItem('permission', responseJson.userPermission); 
     localStorage.setItem('username', responseJson.username); 
     localStorage.setItem('userId', responseJson._id)
+    localStorage.setItem('name', responseJson.fullname)
     alert(responseJson.username)
     if (responseJson.username === 'webadmin1') {
       history.push('/ManageAppt')

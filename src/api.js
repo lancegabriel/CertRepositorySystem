@@ -1,5 +1,6 @@
 export const getUsers = () => fetch("http://localhost:4000").then(res => res.json)
 export const loadUsers = () => fetch("http://localhost:4000/getAllCerts")
+export const loadAppointments = () => fetch("http://localhost:4000/getAppointments")
 export const downloadFile = (name) => fetch(`http://localhost:4000/${name}`)
 export const getUserInfoById = (aUser) => fetch("http://localhost:4000/getCerts", {  
     method: "POST",

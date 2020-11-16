@@ -8,6 +8,8 @@ import { MyCertificates } from '../Subscriber/MyCertificates'
 import { MakeAppointment } from '../Subscriber/MakeAppointment'
 import { WebAdminAllUsers } from '../WebAdmin/ManageAppt'
 import { ForAdminCertificate } from '../WebAdmin/CertificatePage'
+import { MyAppointments } from '../WebAdmin/MyAppointments';
+
 function App() {  
   const history = useHistory();
   let currentPermission =  (localStorage.getItem("permission") == null || localStorage.getItem("permission") === '') ?  "" : localStorage.getItem("permission");
@@ -61,6 +63,9 @@ function App() {
        <li className="navbar-item">
            <Link to="/ManageAppt" className="nav-link">All Users</Link>
          </li>
+         <li className="navbar-item">
+           <Link to="/MyAppointments" className="nav-link">Appointments</Link>
+         </li>
          <li className="navbar-item" onClick={onLogoutClick}>
          <Link to="/login" className="nav-link">Logout</Link>
          </li>
@@ -75,6 +80,7 @@ function App() {
       <Route path="/MakeAppointment" component={MakeAppointment}/>
       <Route path="/ManageAppt" component={WebAdminAllUsers}/>
       <Route path="/CertificatePage" component={ForAdminCertificate}/>
+      <Route path="/MyAppointments" component={MyAppointments}/>
     </Switch>
     </div>
   );

@@ -4,8 +4,14 @@ const Appointment = mongoose.Schema({
     userId: {
         type: String
     },
+    name: {
+        type: String
+    },
     dateOfAppointment: {
         type: Date
+    },
+    location: {
+
     },
     remark: {
         type: String

@@ -72,6 +72,16 @@ app.get("/getAllCerts", (req, res) => {
     });
  });
  
+ app.get("/getAppointments", (req, res) => {
+    Appointment.find((err, user) => {
+        if (err) {
+            console.log(err)
+        } else {
+            res.json(user)
+        }
+    });
+ });
+
  app.post("/createUser", (req, res) => {
     const newUser = new User(req.body) 
 

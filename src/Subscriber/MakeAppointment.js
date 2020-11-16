@@ -9,14 +9,18 @@ export const MakeAppointment = ()  =>  {
     const [startDate, setStartDate] = useState(new Date()); 
     const history = useHistory();
     const userId = localStorage.getItem("userId")
+    const fullName = localStorage.getItem("name")
     const onSubmit = (e) => {
         e.preventDefault()
         const remarks = document.getElementById("remark").value;
+        const location = document.getElementById("location").value;
         const body = {
+            name: fullName,
             userId: userId,
             dateOfAppointment: startDate,
             remark: remarks,
-            status: "Pending"
+            location: location,
+            status: "Pending Acceptance"
         }       
         
         console.log(userId);
@@ -49,6 +53,14 @@ export const MakeAppointment = ()  =>  {
                   timeFormat="p"
                   timeIntervals={15}
                   dateFormat="Pp"/>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-sm-1">
+                    <label htmlFor="location">Location:</label>
+                  </div>
+                  <div className="col-sm-6">
+                    <input type="location" name="location" id="location" />
                   </div>
                 </div>
                 <div className="row">
