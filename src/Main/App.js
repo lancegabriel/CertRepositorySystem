@@ -10,6 +10,9 @@ import { MySubAppointments } from '../Subscriber/SubsAppointments'
 import { WebAdminAllUsers } from '../WebAdmin/ManageAppt'
 import { ForAdminCertificate } from '../WebAdmin/CertificatePage'
 import { MyAppointments } from '../WebAdmin/MyAppointments'
+import { ViewAllLinks } from '../HRAdmin/ViewLinks'
+import { SendLink } from '../Subscriber/SendLink'
+import { ViewCandidateProfile } from '../HRAdmin/ViewCandidateProfile'
 
 function App() {  
   const history = useHistory();
@@ -24,7 +27,7 @@ function App() {
   
   return (
     <div>
-      { (currentPermission == null || (currentPermission !== '1' && currentPermission !== '2')) && (
+      { (currentPermission == null || (currentPermission !== '1' && currentPermission !== '2' && currentPermission !== '3')) && (
      <nav className="navbar bg-light navbar-expand-lg navbar-light">
        <ul className="navbar-nav mr-auto">
          <li className="navbar-item">
@@ -76,6 +79,19 @@ function App() {
        </ul>
      </nav>)
      }
+
+{ (currentPermission === '3' || currentPermission === 3) && (
+     <nav className="navbar bg-light navbar-expand-lg navbar-light">
+       <ul className="navbar-nav mr-auto">
+       <li className="navbar-item">
+           <Link to="/links" className="nav-link">All Links</Link>
+         </li>
+         <li className="navbar-item" onClick={onLogoutClick}>
+         <Link to="/login" className="nav-link">Logout</Link>
+         </li>
+       </ul>
+     </nav>)
+     }
     <Switch>
       <Route path="/login" component={Login}/>
       <Route path="/create" component={Register}/>
@@ -86,6 +102,9 @@ function App() {
       <Route path="/CertificatePage" component={ForAdminCertificate}/>
       <Route path="/MyAppointments" component={MyAppointments}/>
       <Route path="/SubsAppointments" component={MySubAppointments}/>
+      <Route path="/links" component={ViewAllLinks}/>
+      <Route path="/sendLink" component={SendLink}/>
+      <Route path="/viewCandidateProfile" component={ViewCandidateProfile}/>
     </Switch>
     </div>
   );

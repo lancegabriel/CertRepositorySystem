@@ -19,13 +19,11 @@ export const Login = ()  =>  {
     localStorage.setItem('username', responseJson.username); 
     localStorage.setItem('userId', responseJson._id)
     localStorage.setItem('name', responseJson.fullname)
-    alert(responseJson.username)
     if (responseJson.username === 'webadmin1') {
       history.push('/ManageAppt')
-    } else {
-      history.push('/uploadCert')
+    } else if (responseJson.userPermission === '3' || responseJson.userPermission === 3) {
+      history.push('/links')
     }
-    
     window.location.reload();
      }).catch((error) => {
        alert(error)

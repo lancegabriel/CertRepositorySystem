@@ -3,6 +3,7 @@ const cors = require("cors")
 const mongoose = require("mongoose")
 const User = require('./models/user')
 const Appointment = require('./models/Appointment')
+const Link = require('./models/link')
 const multer = require('multer')
 const uuid = require('uuid').v4;
 const bodyParser = require('body-parser');
@@ -82,7 +83,16 @@ app.get("/getAllCerts", (req, res) => {
     });
  });
 
- 
+ app.get("/getAllLinks", (req, res) => {
+    Link.find((err, link) => {
+        if (err) {
+            console.log(err)
+        } else {
+            res.json(link)
+        }
+    });
+ });
+
  app.post("/createUser", (req, res) => {
     const newUser = new User(req.body) 
 
@@ -98,6 +108,16 @@ app.get("/getAllCerts", (req, res) => {
     const appointment = new Appointment(req.body) 
     appointment.save().then((newUser) => {
         res.json(newUser)
+    })
+    .catch((err) => {   
+        res.status(500).send("Error!")
+    });
+ });
+
+ app.post("/sendLink", (req, res) => {
+    const aLink = new Link(req.body) 
+    aLink.save().then((newLink) => {
+        res.json(newLink)
     })
     .catch((err) => {   
         res.status(500).send("Error!")

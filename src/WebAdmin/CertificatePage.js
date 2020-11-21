@@ -24,6 +24,7 @@ export const ForAdminCertificate = ()  =>  {
             certId: certObj._id,
             status: thisStatus
         }
+
         updateCertificate(body).then(response=> {
             alert("Certificate updated!")
             window.location.reload();
