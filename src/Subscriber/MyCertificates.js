@@ -26,7 +26,7 @@ export const MyCertificates = ()  =>  {
     return (
         <div className="container">
             <div className="mt-3">
-                <h3>My uploaded certificates</h3>
+                <h3>My Uploaded Certificates</h3>
                 <table className="table table-striped mt-3">
                     <thead>
                     <tr>

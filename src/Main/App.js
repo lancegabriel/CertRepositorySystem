@@ -17,6 +17,7 @@ import { ViewCandidateProfile } from '../HRAdmin/ViewCandidateProfile'
 function App() {  
   const history = useHistory();
   let currentPermission =  (localStorage.getItem("permission") == null || localStorage.getItem("permission") === '') ?  "" : localStorage.getItem("permission");
+  let currUsername = localStorage.getItem("username");
   console.log(currentPermission);
 
   const onLogoutClick = () => {
@@ -61,6 +62,9 @@ function App() {
          <Link to="/login" className="nav-link">Logout</Link>
          </li>
        </ul>
+       <div style={{float: 'right'}}>
+          <span>Welcome, {currUsername}!</span>
+       </div>
      </nav>)
      }
 
@@ -77,6 +81,9 @@ function App() {
          <Link to="/login" className="nav-link">Logout</Link>
          </li>
        </ul>
+       <div style={{float: 'right'}}>
+          <span>Welcome, {currUsername}!</span>
+       </div>
      </nav>)
      }
 
@@ -90,6 +97,9 @@ function App() {
          <Link to="/login" className="nav-link">Logout</Link>
          </li>
        </ul>
+       <div style={{float: 'right'}}>
+          <span>Welcome, {currUsername}!</span>
+       </div>
      </nav>)
      }
     <Switch>

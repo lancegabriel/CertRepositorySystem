@@ -13,7 +13,14 @@ export const WebAdminAllUsers = ()  =>  {
                    username: username
                  }
        loadUsers(body).then(response=> response.json()).then(response => {
-            setArrayOfUsers(response)
+        var newArray = []
+        for (var i = 0; i < response.length; i++) {
+                if (response[i].userPermission === 1) {
+                    newArray.push(response[i])
+                    console.log(response[i])
+                }
+        }
+            setArrayOfUsers(newArray)
        }) 
     }
             loadAllUsers()

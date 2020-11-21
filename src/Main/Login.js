@@ -23,6 +23,8 @@ export const Login = ()  =>  {
       history.push('/ManageAppt')
     } else if (responseJson.userPermission === '3' || responseJson.userPermission === 3) {
       history.push('/links')
+    } else {
+      history.push('/myCertificates')
     }
     window.location.reload();
      }).catch((error) => {
